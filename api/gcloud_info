@@ -1,8 +1,0 @@
-gcloud compute scp /Users/Klemen/Google\ Drive/indoormeas_api 35.187.122.139:~/indoor_meas_api
-
-gcloud compute scp --recurse /Users/Klemen/Google\ Drive/indoormeas_api/ tradingalgo:~/indoor_meas_api
-
-
----api testing-----
-http://35.187.122.139:5111/login?username=test&password=test123
-
