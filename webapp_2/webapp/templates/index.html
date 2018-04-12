@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <title>{{ title }}</title>
+    </head>
+    <body>
+    	<div>
+    Links:
+    <a href="/index">Home</a>
+	</div>
+        <h1>Hello!</h1>
+
+        <div><p><b>Data</b></p></div>
+
+        <table>
+           <tr>
+       			{% for key in data_rows[0] %}
+       			<th>{{ key }}</th>
+       			{% endfor %}
+   		</tr>
+   		{% for data_row in data_rows %}
+   		<tr>
+   			<td>{{ data_row.cell_id }}</td>
+   			<td>{{ data_row.datetime|datetimeformat}}</td>
+   			<td>{{ data_row.rat }}</td>
+   		</tr>
+   		{% endfor %}
+		</table>
+
+    </body>
+</html>
