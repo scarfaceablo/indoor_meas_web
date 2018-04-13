@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+        <div class="container"><h1>Hello!</h1></div>
+
+        <div class="container"><p><b>Data</b></p></div>
+        <div class="container">
+              <form action="" method="post">
+        {{ form_start_day.dt(class='DatePicker_start_day') }}
+        {{ form_start_day.dt2(class='DatePicker_start_day') }}
+        {{ form_start_day.hidden_tag() }}
+
+        <input type="submit"/>
+          </form>
+  		</div>
+
+<div class="container">
+        <table class="table table-striped">
+           <tr>
+       			{% for key in data_rows[0] %}
+       			<th>{{ key }}</th>
+       			{% endfor %}
+   		</tr>
+   		{% for data_row in data_rows %}
+   		<tr>
+   			<td>{{ data_row.cell_id }}</td>
+   			<td>{{ data_row.datetime|datetimeformat}}</td>
+   			<td>{{ data_row.latitude }}</td>
+   			<td>{{ data_row.longitude }}</td>
+   			<td>{{ data_row.rat }}</td>
+   			<td>{{ data_row.signal_quality }}</td>
+   			<td>{{ data_row.signal_strength }}</td>
+   		</tr>
+   		{% endfor %}
+		</table>
+</div>
+
+
+{% endblock %}

@@ -136,7 +136,7 @@ def read_data_all_users():
 @app.route("/data/<user_id>/", methods=["GET"])
 def read_data_one_user(user_id):
 
-	data = Data.query.filter_by(user_id=user_id)
+	data = Data.query.filter_by(user_id=user_id).order_by(Data.datetime).limit(100).all()
 	output=[]
 	for data_point in data:
 

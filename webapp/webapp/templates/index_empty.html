@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+        <div class="container"><h1>Hello!</h1></div>
+
+        <div class="container"><p><b>Data</b></p></div>
+        <div class="container">
+              <form action="" method="post">
+        {{ form_start_day.dt(class='DatePicker_start_day') }}
+        {{ form_start_day.dt2(class='DatePicker_start_day') }}
+        {{ form_start_day.hidden_tag() }}
+
+        <input type="submit"/>
+          </form>
+          
+
+
+
+     
+      </div>
+{% endblock %}
