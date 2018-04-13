@@ -8,10 +8,25 @@
     <ul class="nav navbar-nav">
       <li ><a href="/home">Home</a></li>
       <li class="active"><a href="/remoteapp">Remote App</a></li>
-      <li><a href="#">Page 3</a></li>
+      <li><a href="/index">Logout</a></li>
+
     </ul>
   </div>
 </nav>
-<div> remtoe </div>
+
+<div class="container">
+  <h3> Enter pin to make phone call from app</h3>
+  <form action="" method="post">
+
+        {{ form_make_call.hidden_tag() }}
+        {{ form_make_call.pin(size=32) }}
+        {{ form_make_call.submit }}
+
+
+        <input type="submit"/>
+          
+  </form>
+
+</div>
 
 {% endblock %}

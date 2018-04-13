@@ -2,7 +2,7 @@ from webapp import app
 
 from flask import render_template,flash, redirect, url_for, session
 
-from webapp.forms import LoginForm, DatePicker_start_day
+from webapp.forms import LoginForm, DatePicker_start_day, MakeCallButton
 
 import requests as api_requests
 import pandas as pd 
@@ -13,6 +13,8 @@ from plotly.offline import plot
 from plotly.graph_objs import Scatter
 import plotly
 import numpy as np
+
+import pusher
 
 api_ip="http://35.195.64.234:5222/"
 
@@ -133,7 +135,23 @@ def index():
 @app.route('/remoteapp', methods=['GET', 'POST'])
 def remoteapp():
 	
-    return render_template('remoteapp.html')
+	pusher_client = pusher.Pusher(
+	  app_id='509027',
+	  key='bff446cfed9e4cfc6570',
+	  secret='c150b2aaf785cbb0df16',
+	  cluster='eu',
+	  ssl=True
+	)
+
+	form_make_call = MakeCallButton()
+
+	if form_make_call.validate_on_submit():
+		print(form_make_call.pin.data)
+		if form_make_call.pin.data == "33714195":
+			pusher_client.trigger('my-channel', 'my-event', {'message': 'push to make a call'})
+
+
+	return render_template('remoteapp.html', form_make_call=form_make_call)
 
 
 
