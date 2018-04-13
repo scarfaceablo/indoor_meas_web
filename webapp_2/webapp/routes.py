@@ -9,6 +9,7 @@ import pandas as pd
 import json
 from datetime import datetime
 
+# api ip
 api_ip="http://35.195.64.234:5222/"
 
 @app.template_filter('datetimeformat')
