@@ -1,20 +1,33 @@
 {% extends "base.html" %}
 {% block content %}
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Indoor Signal Measurement</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="/home">Home</a></li>
+      <li ><a href="/remoteapp">Remote App</a></li>
+      <li><a href="#">Page 3</a></li>
+    </ul>
+  </div>
+</nav>
+
         <div class="container"><h1>Hello!</h1></div>
 
         <div class="container"><p><b>Data</b></p></div>
-        <div class="container">
-              <form action="" method="post">
-        {{ form_start_day.dt(class='DatePicker_start_day') }}
-        {{ form_start_day.dt2(class='DatePicker_start_day') }}
-        {{ form_start_day.hidden_tag() }}
-
-        <input type="submit"/>
-          </form>
+        
+        <form action="" method="post">
+          <div class="container">
+                <div class="form-group">
+                  {{ form_start_day.dt(class='DatePicker_start_day') }}
+                  {{ form_start_day.dt2(class='DatePicker_start_day') }}
+                  {{ form_start_day.hidden_tag() }}
+                  <button type="submit" class="btn btn-default">Submit</button>
+                </div>
+          </div>
+        </form>
           
-
-
-
-     
-      </div>
+      
 {% endblock %}
