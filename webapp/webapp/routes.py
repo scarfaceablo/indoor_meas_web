@@ -114,7 +114,10 @@ def index():
 		df=df.loc[mask_date]
 
 		df=df.sort_values(by="datetime", ascending=False).head(100)
+		print(df)
+
 		del df["user_id"]
+
 		data_rows=json.loads(df.to_json(orient="records", date_unit="s"))
 
 
