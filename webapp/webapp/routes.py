@@ -2,7 +2,7 @@ from webapp import app
 
 from flask import render_template,flash, redirect, url_for, session
 
-from webapp.forms import LoginForm, DatePicker_start_day, MakeCallButton
+from webapp.forms import LoginForm, DatePicker_start_day, MakeCallButton, RegistrationForm
 
 import requests as api_requests
 import pandas as pd 
@@ -16,6 +16,13 @@ import numpy as np
 
 import pusher
 
+from webapp import db
+from flask_login import current_user, login_user, logout_user, login_required
+from webapp.models import User
+
+from flask import send_from_directory
+import os
+
 api_ip="http://35.195.64.234:5222/"
 
 @app.template_filter('datetimeformat')
@@ -23,33 +30,63 @@ def datetimeformat(value, format="%d-%m-%Y %H:%M:%S"):
 	return datetime.fromtimestamp(value).strftime(format)
 
 
+@app.route('/favicon.ico', methods=["GET"])
+def favicon():
+	return send_from_directory(directory=os.path.join(app.root_path, 'webbapp/templates'),
+                               filename='favicon.ico', 
+                               mimetype='image/vnd.microsoft.icon')
+
+
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def login():
-    form = LoginForm()
-    if form.validate_on_submit():
+	if current_user.is_authenticated:
+		return redirect("/home")
 
-        r = api_requests.post(api_ip+"login", json={"username":form.username.data, "password":form.password.data})
-        json_reponse_login=r.json()
+	form = LoginForm()
 
-        reponse_login=json_reponse_login["message"]
+	if form.validate_on_submit():
 
-        if reponse_login == "fail":
-            print("wrong credentials") 
-            return render_template('login.html', title='Sign In', form=form)
+		user=User.query.filter_by(username=form.username.data).first()
+
+		if user is None or not user.check_password(form.password.data):
+			flash("Invalid username or password")
+			return redirect("/index")
+		print(user)
+		login_user(user, remember=form.remember_me.data)
+
+		return redirect("/home")
+
+	return render_template('login.html', title='Sign In', form=form)
 
 
-        if reponse_login=="OK":
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect("/index")
 
-        	reponse_user_id=json_reponse_login["user_id"]
-        	session['user_id'] = reponse_user_id
 
-        	return redirect("/home")
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+	if current_user.is_authenticated:
+		return redirect("/home")
 
-    return render_template('login.html', title='Sign In', form=form)
+	form = RegistrationForm()
+
+	if form.validate_on_submit():
+
+		user = User(username=form.username.data)
+		user.set_password(form.password.data)
+		db.session.add(user)
+		db.session.commit()
+		flash("New user created")
+		return redirect("/index")
+
+	return render_template("register.html", form=form)
 
 
 @app.route('/home', methods=["GET","POST"])
+@login_required
 def index():
 
 	form_start_day = DatePicker_start_day()
@@ -133,6 +170,7 @@ def index():
 
 
 @app.route('/remoteapp', methods=['GET', 'POST'])
+@login_required
 def remoteapp():
 	
 	pusher_client = pusher.Pusher(
