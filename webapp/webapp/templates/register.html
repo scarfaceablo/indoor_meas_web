@@ -1,31 +1,25 @@
 {% extends "login_register_base.html" %}
 {% block content %}
-    <div class="container"><h1>Register</h1></div>
-    <div class="container">
+
+<div class="container"><h1>Register</h1></div>
+
+
+<div class="container">
     <form action="" method="post">
+
         {{ form.hidden_tag() }}
-        <p>
-            {{ form.username.label }}<br>
-            {{ form.username(size=32) }}<br>
-            {% for error in form.username.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.password.label }}<br>
-            {{ form.password(size=32) }}<br>
-            {% for error in form.password.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.password2.label }}<br>
-            {{ form.password2(size=32) }}<br>
-            {% for error in form.password2.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>{{ form.submit() }}</p>
+
+        <div class="col-xs-4">
+            {{ render_field(form.username, class='form-control', placeholder='username') }}
+
+            {{ render_field(form.password, class='form-control', placeholder='password') }}
+
+            {{ render_field(form.password2, class='form-control', placeholder='retype password') }}
+            <br>
+            <button class="btn btn-primary" type="submit">Register</button>
+
+        </div>
+        
     </form>
-</div>
+    </div>
 {% endblock %}

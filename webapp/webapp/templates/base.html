@@ -1,15 +1,30 @@
 <html>
     <head>
 
-      <title>{{ title }}</title>
+      <title>ISM - {{ title }}</title>
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
+    	        {% macro render_field(field) %}
+  <dt>{{ field.label }}
+  <dd>{{ field(**kwargs)|safe }}
+  {% if field.errors %}
+    <ul class=errors>
+    {% for error in field.errors %}
+      <li>{{ error }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+  </dd>
+{% endmacro %}
 
         {% block content %}
         {% endblock %}
+
     </body>
 </html>
 

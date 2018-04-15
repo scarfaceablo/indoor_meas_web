@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 
 from flask_login import LoginManager
 
+from flask_googlemaps import GoogleMaps
 
 
 app = Flask(__name__)
@@ -16,5 +17,7 @@ migrate = Migrate(app, db)
 
 login = LoginManager(app)
 login.login_view = 'login'
+
+googlemaps=GoogleMaps(app)
 
 from webapp import routes, models

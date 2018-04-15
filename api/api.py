@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import datetime
 import time
+from datetime import timedelta
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"]="mysql://root:ablo123@130.211.98.36/indoormeas"
@@ -136,7 +137,9 @@ def read_data_all_users():
 @app.route("/data/<user_id>/", methods=["GET"])
 def read_data_one_user(user_id):
 
-	data = Data.query.filter_by(user_id=user_id).order_by(desc(Data.datetime)).limit(500).all()
+	data = Data.query.filter_by(user_id=user_id).order_by(Data.datetime).all()
+	print(data)
+
 	output=[]
 	for data_point in data:
 
@@ -163,9 +166,16 @@ def read_data_one_user_filter_date(user_id, start_date, end_date):
 	start_date_unix = int(time.mktime(start_date_dt.timetuple()))
 
 	end_date_dt = datetime.datetime.strptime(end_date, '%d_%m_%Y_%H_%M_%S')
+	end_date_dt=end_date_dt+timedelta(days=1)
 	end_date_unix = int(time.mktime(end_date_dt.timetuple()))
 
-	data = Data.query.filter_by(user_id=user_id).filter(Data.datetime.between(start_date_unix, end_date_unix))
+	if start_date_unix==end_date_unix:
+
+		data = Data.query.filter_by(user_id=user_id).filter(datetime=start_date_unix)
+	else:
+		data = Data.query.filter_by(user_id=user_id).filter(Data.datetime.between(start_date_unix, end_date_unix))
+
+
 	output=[]
 	for data_point in data:
 

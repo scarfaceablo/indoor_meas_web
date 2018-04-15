@@ -1,9 +1,10 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired, ValidationError, EqualTo
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField
+from wtforms.validators import DataRequired, ValidationError, EqualTo, NumberRange
 
 from webapp.models import User
-
+from datetime import datetime
+from datetime import timedelta
 
 from wtforms.fields.html5 import DateField
 
@@ -26,16 +27,17 @@ class RegistrationForm(FlaskForm):
 		if user is not None:
 			raise ValidationError('Please use a different username.')
 
-
-
 class DatePicker_start_day(FlaskForm):
-    dt = DateField('DatePicker_start_day', format='%Y-%m-%d')
-    dt2 = DateField('DatePicker_end_day', format='%Y-%m-%d')
+    dt = DateField('DatePicker_start_day', format='%Y-%m-%d', default=datetime.today()-timedelta(days=1))
+    dt2 = DateField('DatePicker_end_day', format='%Y-%m-%d', default=datetime.today())
 
 class MakeCallButton(FlaskForm):
 	pin = PasswordField('Pin', validators=[DataRequired()])
 	makecallbutton = SubmitField("make call")
 
+
+class MapSamples(FlaskForm):
+	mapsample=IntegerField("", validators=[NumberRange(min=1, max=20)])
 
 
 
