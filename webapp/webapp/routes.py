@@ -2,7 +2,7 @@ from webapp import app
 
 from flask import render_template,flash, redirect, url_for, session
 
-from webapp.forms import LoginForm, DatePicker_start_day, MakeCallButton, RegistrationForm,MapSamples
+from webapp.forms import LoginForm, DatePicker_start_day, MakeCallButton, RegistrationForm,MapSamples,RatSelect 
 
 import requests as api_requests
 import pandas as pd 
@@ -95,6 +95,7 @@ def help():
 def index():
 
 	form_start_day = DatePicker_start_day()
+	form_ratselect = RatSelect()
 
 	if form_start_day.validate_on_submit():
 
@@ -113,9 +114,25 @@ def index():
 		date_start_for_api=date_from_picker_start.strftime("%d_%m_%Y_%H_%M_%S")
 		date_end_for_api=date_from_picker_end.strftime("%d_%m_%Y_%H_%M_%S")
 
+
 		
+		rat = form_ratselect.ratselect.data
+
+
+
+
+		if rat=="1":
+			rat_to_api="2g"
+			pass
+		elif rat=="2":
+			rat_to_api="3g"
+			pass
+		elif rat=="3":
+			rat_to_api="4g"
+
 		try:
-			r = api_requests.get(api_ip+"data/"+str(user_id)+"/"+date_start_for_api+"/"+date_end_for_api)
+			r = api_requests.get(api_ip+"data/"+str(user_id)+"/"+rat_to_api+"/"+date_start_for_api+"/"+date_end_for_api)
+			print(api_ip+"data/"+str(user_id)+"/"+rat_to_api+"/"+date_start_for_api+"/"+date_end_for_api)
 			json_reponse_data=r.json()
 			json_reponse_data_content=json_reponse_data["data"]
 			df=pd.DataFrame(json_reponse_data_content)
@@ -125,45 +142,46 @@ def index():
 			data_rows=json.loads(df.to_json(orient="records", date_unit="s"))
 
 			graphs = [
-			        dict(
-			            data=[
-			                dict(
-			                    x=list(df["datetime"]),
-			                    y=list(df["signal_strength"]),
-			                    type='scatter',
-			                    name="Signal strength[dBm]"
-			                ),
-			                	dict(
-			                    x=list(df["datetime"]),
-			                    y=list(df["signal_quality"]),
-			                    type='scatter',
-			                    name="Signal quality[dB]"
-			                )
-			            ],
-			            layout=dict(
-			                title='Signal Strength and Quality',
-			                height=400,
-			                width=1200
-			            )
-			        )
+				        dict(
+				            data=[
+				                dict(
+				                    x=list(df["datetime"]),
+				                    y=list(df["signal_strength"]),
+				                    type='scatter',
+				                    name="Signal strength[dBm]"
+				                ),
+				                	dict(
+				                    x=list(df["datetime"]),
+				                    y=list(df["signal_quality"]),
+				                    type='scatter',
+				                    name="Signal quality[dB]"
+				                )
+				            ],
+				            layout=dict(
+				                title='Signal Strength and Quality',
+				                height=400,
+				                width=1200
+				            )
+				        )
 
-			    ]
+				    ]
 
-		    # Add "ids" to each of the graphs to pass up to the client
-		    # for templating
+			    # Add "ids" to each of the graphs to pass up to the client
+			    # for templating
 			ids = ['graph_{}'.format(i) for i, _ in enumerate(graphs)]
 
 			graphJSON = json.dumps(graphs, cls=plotly.utils.PlotlyJSONEncoder)
 
 			return render_template('index.html',
-								title="home page", 
-								data_rows=data_rows,
-								form_start_day=form_start_day,
-								ids=ids,
-								graphJSON=graphJSON)
+									title="home page", 
+									data_rows=data_rows,
+									form_start_day=form_start_day,
+									form_ratselect=form_ratselect,
+									ids=ids,
+									graphJSON=graphJSON)
 		except:
 			pass
-		#print(json_reposnse_data_content)
+			#print(json_reposnse_data_content)
 
 
 
@@ -171,7 +189,8 @@ def index():
 
 	return render_template('index_empty.html',
 								title="Home", 
-								form_start_day=form_start_day)
+								form_start_day=form_start_day,
+								form_ratselect=form_ratselect,)
 
 
 
@@ -204,6 +223,8 @@ def mapview():
 	form_start_day = DatePicker_start_day()
 
 	form_map_sample = MapSamples()
+
+	
 
 	if form_start_day.validate_on_submit():
 

@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField
-from wtforms.validators import DataRequired, ValidationError, EqualTo, NumberRange
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, SelectField
+from wtforms.validators import DataRequired, ValidationError, EqualTo, NumberRange, Required
 
 from webapp.models import User
 from datetime import datetime
@@ -38,6 +38,11 @@ class MakeCallButton(FlaskForm):
 
 class MapSamples(FlaskForm):
 	mapsample=IntegerField("", validators=[NumberRange(min=1, max=20)])
+
+
+class RatSelect(FlaskForm):
+    rat = [(1,'GSM'),(2,'UMTS'),(3,'LTE')]
+    ratselect = SelectField('Technology', choices = rat)
 
 
 
