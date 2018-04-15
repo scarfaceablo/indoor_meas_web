@@ -173,7 +173,7 @@ def read_data_one_user_filter_date(user_id, start_date, end_date):
 
 		data = Data.query.filter_by(user_id=user_id).filter(datetime=start_date_unix)
 	else:
-		data = Data.query.filter_by(user_id=user_id).filter(Data.datetime.between(start_date_unix, end_date_unix))
+		data = Data.query.filter_by(user_id=user_id).filter(latitude>0).filter(Data.datetime.between(start_date_unix, end_date_unix))
 
 
 	output=[]
