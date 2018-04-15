@@ -23,8 +23,6 @@ from webapp.models import User
 from flask import send_from_directory
 import os
 
-import folium
-
 api_ip="http://35.195.64.234:5222/"
 
 @app.template_filter('datetimeformat')
@@ -87,6 +85,11 @@ def register():
 	return render_template("register.html", form=form, title="Register")
 
 
+@app.route("/help")
+@login_required
+def help():
+	return render_template("help.html", title= "Help")
+
 @app.route('/home', methods=["GET","POST"])
 @login_required
 def index():
@@ -140,7 +143,7 @@ def index():
 			            layout=dict(
 			                title='Signal Strength and Quality',
 			                height=400,
-			                width=800
+			                width=1200
 			            )
 			        )
 

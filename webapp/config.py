@@ -8,5 +8,7 @@ class Config(object):
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    GOOGLEMAPS_KEY = "AIzaSyBMdTKuddw9OqSfgAE_A0PnZcqGjjuwZqg"
+
 
     

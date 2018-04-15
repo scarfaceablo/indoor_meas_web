@@ -9,6 +9,7 @@
       <li class="active"><a href="/home">Home</a></li>
       <li><a href="/remoteapp">Remote App</a></li>
       <li><a href="/map">Map</a></li>
+      <li><a href="/help">Help</a></li>
       
     </ul>
 
@@ -24,25 +25,21 @@
   </div>
 </nav>
 
-
-        <div class="container"><h1>Hello {{ current_user.username }}</h1></div>
-
         <div class="container"><p><b>Data</b></p></div>
 
 
         <div class="container">
               <form action="" method="post">
-        {{ form_start_day.dt(class='DatePicker_start_day') }}
-        {{ form_start_day.dt2(class='DatePicker_start_day') }}
-        {{ form_start_day.hidden_tag() }}
-
-        <input type="submit"/>
+                  {{ form_start_day.dt(class='DatePicker_start_day') }}
+                  {{ form_start_day.dt2(class='DatePicker_start_day') }}
+                  {{ form_start_day.hidden_tag() }}
+                  <button type="submit" class="btn btn-primary">Submit</button>
           </form>
   		</div>
 
 
     {% for id in ids %}
-        <div class="container" id="{{id}}" style="float: left;>
+        <div class="container" id="{{id}}">
     {% endfor %}
 
 

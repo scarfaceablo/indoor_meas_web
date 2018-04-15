@@ -7,9 +7,9 @@
     </div>
     <ul class="nav navbar-nav">
       <li ><a href="/home">Home</a></li>
-      <li class="active"><a href="/remoteapp">Remote App</a></li>
+      <li><a href="/remoteapp">Remote App</a></li>
       <li><a href="/map">Map</a></li>
-      <li><a href="/help">Help</a></li>
+      <li class="active"><a href="/help">Help</a></li>
       
     </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -25,17 +25,24 @@
 </nav>
 
 <div class="container">
-  <h3> Enter pin to make phone call from app</h3>
-  <form action="" method="post">
+  <h3>About the ISM (Indoor Signal Measurement)</h3>
+  <br>
+  <br>
 
-        {{ form_make_call.hidden_tag() }}
-        {{ form_make_call.pin(size=32) }}
-        {{ form_make_call.submit }}
+            <h4>App arhitecture:</h4>
 
+            <ul>
+              <li>Android app (Java)</li>
 
-        <input type="submit"/>
-          
-  </form>
+              <li>Webapp (flask microframework)</li>
+
+              <li>Rest API (flask microframework)</li>
+
+            </ul>
+            <h4>How app works ?</h4>
+            <ul>
+              <li>Android app when active, sends measurement reports every N seconds</li>
+            </ul>
 
 </div>
 
