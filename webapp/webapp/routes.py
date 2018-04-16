@@ -117,8 +117,6 @@ def index():
 
 		
 		rat = form_ratselect.ratselect.data
-
-
 		if rat=="1":
 			rat_to_api="2g"
 			pass
@@ -127,6 +125,9 @@ def index():
 			pass
 		elif rat=="3":
 			rat_to_api="4g"
+		elif rat=="4":
+			rat_to_api="all"
+			
 
 		try:
 			r = api_requests.get(api_ip+"data/"+str(user_id)+"/"+rat_to_api+"/"+date_start_for_api+"/"+date_end_for_api)
