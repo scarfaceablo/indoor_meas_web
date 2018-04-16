@@ -2,9 +2,13 @@
 {% block content %}
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
+
     <div class="navbar-header">
+      <a href="#" class="pull-left"><img src="/favicon.png" width=40px heigth=40px></a>
+      <a class="navbar-brand" href="#">  </a>
       <a class="navbar-brand" href="#">Indoor Signal Measurement</a>
     </div>
+
     <ul class="nav navbar-nav">
       <li class="active"><a href="/home">Home</a></li>
       <li><a href="/remoteapp">Remote App</a></li>
@@ -38,7 +42,7 @@
           </form>
   		</div>
 
-
+<div class="container">
     {% for id in ids %}
         <div class="container" id="{{id}}">
     {% endfor %}
@@ -61,27 +65,39 @@
         }
     </script>
   </div>
+</div>
 
 
 
 <div class="container">
-        <table class="table table-striped">
-           <tr>
-            {% for key in data_rows[0] %}
+<table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+            {% for key in table_rows[0] %}
             <th>{{ key }}</th>
             {% endfor %}
-      </tr>
-      {% for data_row in data_rows %}
+            </tr>
+        </thead>
+        <tbody>
+      {% for table_row in table_rows %}
       <tr>
-        <td>{{ data_row.cell_id }}</td>
-        <td>{{ data_row.datetime|datetimeformat}}</td>
-        <td>{{ data_row.latitude }}</td>
-        <td>{{ data_row.longitude }}</td>
-        <td>{{ data_row.rat }}</td>
-        <td>{{ data_row.signal_quality }}</td>
-        <td>{{ data_row.signal_strength }}</td>
+        <td>{{ table_row.cell_id }}</td>
+        <td>{{ table_row.datetime|datetimeformat}}</td>
+        <td>{{ table_row.latitude }}</td>
+        <td>{{ table_row.longitude }}</td>
+        <td>{{ table_row.rat }}</td>
+        <td>{{ table_row.signal_quality }}</td>
+        <td>{{ table_row.signal_strength }}</td>
       </tr>
       {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+            {% for key in table_rows[0] %}
+            <th>{{ key }}</th>
+            {% endfor %}
+            </tr>
+        </tfoot>
     </table>
 </div>
 

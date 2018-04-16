@@ -8,6 +8,10 @@ from datetime import timedelta
 
 from wtforms.fields.html5 import DateField
 
+
+
+
+
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
@@ -44,6 +48,9 @@ class RatSelect(FlaskForm):
     rat = [(1,'GSM'),(2,'UMTS'),(3,'LTE'),(4,"all")]
     ratselect = SelectField('Technology', choices = rat)
 
+
+#('cell_id', 496134), ('datetime', 1523821814), ('latitude', 46.0758), 
+#('longitude', 14.5656), ('rat', '4g'), ('signal_quality', -8), ('signal_strength', -95)])
 
 
 		

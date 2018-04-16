@@ -11,7 +11,7 @@ from flask_googlemaps import GoogleMaps
 
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path = "", static_folder = "templates")
 
 app.config.from_object(Config)
 

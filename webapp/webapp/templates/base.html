@@ -5,22 +5,26 @@
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-
+<script src="//cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css"></script>
+<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+<script src="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" type="image/png" href="favicon.ico">
+
     </head>
     <body>
     	        {% macro render_field(field) %}
-  <dt>{{ field.label }}
-  <dd>{{ field(**kwargs)|safe }}
-  {% if field.errors %}
-    <ul class=errors>
-    {% for error in field.errors %}
-      <li>{{ error }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-  </dd>
-{% endmacro %}
+                        <dt>{{ field.label }}
+                        <dd>{{ field(**kwargs)|safe }}
+                        {% if field.errors %}
+                          <ul class=errors>
+                          {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                          {% endfor %}
+                          </ul>
+                        {% endif %}
+                        </dd>
+                {% endmacro %}
 
         {% block content %}
         {% endblock %}

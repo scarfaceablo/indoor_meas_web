@@ -2,7 +2,7 @@ from webapp import app
 
 from flask import render_template,flash, redirect, url_for, session
 
-from webapp.forms import LoginForm, DatePicker_start_day, MakeCallButton, RegistrationForm,MapSamples,RatSelect 
+from webapp.forms import LoginForm, DatePicker_start_day, MakeCallButton, RegistrationForm,MapSamples,RatSelect
 
 import requests as api_requests
 import pandas as pd 
@@ -25,7 +25,14 @@ import os
 
 from collections import OrderedDict
 
+
+from webapp.data_processing import GetDataApi
+
+
+
 api_ip="http://35.195.64.234:5222/"
+
+
 
 @app.template_filter('datetimeformat')
 def datetimeformat(value, format="%d-%m-%Y %H:%M:%S"):
@@ -108,16 +115,13 @@ def index():
 		print(date_from_picker_start, date_from_picker_end)
 
 		user_id=session.get("user_id", None)
-		print(user_id)
+		
 		#r = api_requests.get(api_ip+"data/"+str(user_id))
-
 
 		# api excepts date format = > 09_04_2018_12_00_00
 		date_start_for_api=date_from_picker_start.strftime("%d_%m_%Y_%H_%M_%S")
 		date_end_for_api=date_from_picker_end.strftime("%d_%m_%Y_%H_%M_%S")
 
-
-		
 		rat = form_ratselect.ratselect.data
 		if rat=="1":
 			rat_to_api="2g"
@@ -127,27 +131,23 @@ def index():
 			pass
 		elif rat=="3":
 			rat_to_api="4g"
+			pass
 		elif rat=="4":
 			rat_to_api="all"
-			
+			pass
 
-		try:
-			r = api_requests.get(api_ip+"data/"+str(user_id)+"/"+rat_to_api+"/"+date_start_for_api+"/"+date_end_for_api)
-			print(api_ip+"data/"+str(user_id)+"/"+rat_to_api+"/"+date_start_for_api+"/"+date_end_for_api)
-			json_reponse_data=r.json()
-			json_reponse_data_content=json_reponse_data["data"]
-			df=pd.DataFrame(json_reponse_data_content)
-			df['datetime'] = pd.to_datetime(df['datetime'],unit='s')
-			df=df.sort_values(by="datetime", ascending=False)
-                        
-			del df["user_id"]
-                    
-			data_rows=json.loads(df.to_json(orient="records", date_unit="s"),object_pairs_hook=OrderedDict)
-                    
-                    
-                        print(data_rows[0])
-                        print(type(data_rows[0]))
-			graphs = [
+
+		getdataapi=GetDataApi(api_url=api_ip,
+			user_id=user_id,
+			rat_to_api=rat_to_api,
+			date_start_for_api=date_start_for_api,
+			date_end_for_api=date_end_for_api)
+
+		df=getdataapi.pandas_dataframe()
+
+		table_rows=getdataapi.table_data()
+
+		graphs = [
 				        dict(
 				            data=[
 				                dict(
@@ -166,7 +166,7 @@ def index():
 				            layout=dict(
 				                title='Signal Strength and Quality',
 				                height=400,
-				                width=1200
+				                width=800
 				            )
 				        )
 
@@ -174,29 +174,23 @@ def index():
 
 			    # Add "ids" to each of the graphs to pass up to the client
 			    # for templating
-			ids = ['graph_{}'.format(i) for i, _ in enumerate(graphs)]
+		ids = ['graph_{}'.format(i) for i, _ in enumerate(graphs)]
+		graphJSON = json.dumps(graphs, cls=plotly.utils.PlotlyJSONEncoder)
 
-			graphJSON = json.dumps(graphs, cls=plotly.utils.PlotlyJSONEncoder)
-
-			return render_template('index.html',
+		return render_template('index.html',
 									title="home page", 
-									data_rows=data_rows,
+									table_rows=table_rows,
 									form_start_day=form_start_day,
 									form_ratselect=form_ratselect,
 									ids=ids,
-									graphJSON=graphJSON)
-		except:
-			pass
-			#print(json_reposnse_data_content)
-
-
-
+									graphJSON=graphJSON
+									)
 
 
 	return render_template('index_empty.html',
 								title="Home", 
 								form_start_day=form_start_day,
-								form_ratselect=form_ratselect,)
+								form_ratselect=form_ratselect)
 
 
 
