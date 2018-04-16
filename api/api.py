@@ -167,17 +167,31 @@ def read_data_one_user_filter_date(user_id, start_date, end_date, rat):
 
 	end_date_dt = datetime.datetime.strptime(end_date, '%d_%m_%Y_%H_%M_%S')
 	end_date_dt=end_date_dt+timedelta(days=1)
+
 	end_date_unix = int(time.mktime(end_date_dt.timetuple()))
 
+	print(start_date_dt)
+	print(end_date_dt)
+
 	if rat=="all":
-		data = Data.query.filter_by(user_id=user_id).filter(Data.latitude>0.0).filter(Data.datetime.between(start_date_unix, end_date_unix))
+		data = Data.query\
+			.filter_by(user_id=user_id)\
+			.filter(Data.latitude>0.0)\
+			.filter(Data.datetime.between(start_date_unix, end_date_unix))\
+			.order_by(Data.datetime.desc())
+		
 	else:
-		data = Data.query.filter_by(user_id=user_id).filter(Data.latitude>0.0).filter_by(rat=rat).filter(Data.datetime.between(start_date_unix, end_date_unix))
+		data = Data.query\
+			.filter_by(user_id=user_id)\
+			.filter(Data.latitude>0.0)\
+			.filter_by(rat=rat)\
+			.filter(Data.datetime.between(start_date_unix, end_date_unix))\
+			.order_by(Data.datetime.desc())
 
 
 	output=[]
 	for data_point in data:
-
+		print(data_point)
 		data_meas={}
 		data_meas["datetime"]=data_point.datetime
 		data_meas["user_id"]=data_point.user_id
@@ -189,6 +203,7 @@ def read_data_one_user_filter_date(user_id, start_date, end_date, rat):
 		data_meas["latitude"]=data_point.latitude
 
 		output.append(data_meas)
+	print(output)
 
 	return jsonify({"data":output})
 
