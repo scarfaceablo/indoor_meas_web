@@ -23,6 +23,8 @@ from webapp.models import User
 from flask import send_from_directory
 import os
 
+from collections import OrderedDict
+
 api_ip="http://35.195.64.234:5222/"
 
 @app.template_filter('datetimeformat')
@@ -137,9 +139,14 @@ def index():
 			df=pd.DataFrame(json_reponse_data_content)
 			df['datetime'] = pd.to_datetime(df['datetime'],unit='s')
 			df=df.sort_values(by="datetime", ascending=False)
+                        
 			del df["user_id"]
-			data_rows=json.loads(df.to_json(orient="records", date_unit="s"))
-
+                    
+			data_rows=json.loads(df.to_json(orient="records", date_unit="s"),object_pairs_hook=OrderedDict)
+                    
+                    
+                        print(data_rows[0])
+                        print(type(data_rows[0]))
 			graphs = [
 				        dict(
 				            data=[

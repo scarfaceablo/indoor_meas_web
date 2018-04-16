@@ -1,0 +1,8 @@
+[2018-04-16 06:23:42 +0000] [7028] [INFO] Starting gunicorn 19.7.1
+[2018-04-16 06:23:42 +0000] [7028] [INFO] Listening at: http://0.0.0.0:5222 (7028)
+[2018-04-16 06:23:42 +0000] [7028] [INFO] Using worker: sync
+[2018-04-16 06:23:42 +0000] [7032] [INFO] Booting worker with pid: 7032
+Failed to find application: 'api'
+[2018-04-16 06:23:42 +0000] [7032] [INFO] Worker exiting (pid: 7032)
+[2018-04-16 06:23:42 +0000] [7028] [INFO] Shutting down: Master
+[2018-04-16 06:23:42 +0000] [7028] [INFO] Reason: App failed to load.
