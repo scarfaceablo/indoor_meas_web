@@ -41,7 +41,7 @@ class MapSamples(FlaskForm):
 
 
 class RatSelect(FlaskForm):
-    rat = [(1,'GSM'),(2,'UMTS'),(3,'LTE')]
+    rat = [(1,'GSM'),(2,'UMTS'),(3,'LTE'),(4,"all")]
     ratselect = SelectField('Technology', choices = rat)
 
 

@@ -119,8 +119,6 @@ def index():
 		rat = form_ratselect.ratselect.data
 
 
-
-
 		if rat=="1":
 			rat_to_api="2g"
 			pass
@@ -245,7 +243,7 @@ def mapview():
 
 		
 		try:
-			r = api_requests.get(api_ip+"data/"+str(user_id)+"/"+date_start_for_api+"/"+date_end_for_api)
+			r = api_requests.get(api_ip+"data/"+str(user_id)+"/"+"all"+"/"+date_start_for_api+"/"+date_end_for_api)
 			json_reponse_data=r.json()
 			json_reponse_data_content=json_reponse_data["data"]
 			df=pd.DataFrame(json_reponse_data_content)

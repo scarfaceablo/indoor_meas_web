@@ -169,9 +169,8 @@ def read_data_one_user_filter_date(user_id, start_date, end_date, rat):
 	end_date_dt=end_date_dt+timedelta(days=1)
 	end_date_unix = int(time.mktime(end_date_dt.timetuple()))
 
-	if start_date_unix==end_date_unix:
-
-		data = Data.query.filter_by(user_id=user_id).filter(datetime=start_date_unix)
+	if rat=="all":
+		data = Data.query.filter_by(user_id=user_id).filter(Data.latitude>0.0).filter(Data.datetime.between(start_date_unix, end_date_unix))
 	else:
 		data = Data.query.filter_by(user_id=user_id).filter(Data.latitude>0.0).filter_by(rat=rat).filter(Data.datetime.between(start_date_unix, end_date_unix))
 
