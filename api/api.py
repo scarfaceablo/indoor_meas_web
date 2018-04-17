@@ -176,18 +176,17 @@ def read_data_one_user_filter_date(user_id, start_date, end_date, rat):
 	if rat=="all":
 		data = Data.query\
 			.filter_by(user_id=user_id)\
-			.filter(Data.latitude>0.0)\
 			.filter(Data.datetime.between(start_date_unix, end_date_unix))\
 			.order_by(Data.datetime.desc())
+			#.filter(Data.latitude>0.0)\
 		
 	else:
 		data = Data.query\
 			.filter_by(user_id=user_id)\
-			.filter(Data.latitude>0.0)\
 			.filter_by(rat=rat)\
 			.filter(Data.datetime.between(start_date_unix, end_date_unix))\
 			.order_by(Data.datetime.desc())
-
+			#.filter(Data.latitude>0.0)\
 
 	output=[]
 	for data_point in data:

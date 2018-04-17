@@ -263,6 +263,8 @@ def mapview():
 
 			df_coord=df[["latitude","longitude","signal_strength"]].copy()
 
+			df_coord=df_coord.loc[df_coord["latitude"]>0]
+
 			if form_map_sample.validate_on_submit():
 				if form_map_sample.mapsample.data:
 					df_coord=df_coord.iloc[::form_map_sample.mapsample.data,:]
@@ -270,6 +272,7 @@ def mapview():
 
 
 			df_coord["signal_strength"]=df_coord["signal_strength"].astype(str)+" dBm"
+
 			df_coord.rename(columns={"latitude":"lat",
                         "longitude":"lng",
                         "signal_strength":"infobox"},inplace=True)

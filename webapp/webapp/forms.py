@@ -8,10 +8,6 @@ from datetime import timedelta
 
 from wtforms.fields.html5 import DateField
 
-
-
-
-
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
